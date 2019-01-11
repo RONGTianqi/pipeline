@@ -15,8 +15,7 @@ node() {
     withEnv(["GOPATH=${WORKSPACE}", "PATH+GO=${root}/bin:${WORKSPACE}/bin", "GOBIN=${WORKSPACE}/bin"]){
 
       try{
-        sh 'cp golint ${WORKSPACE}/bin'
-        sh "golint ."
+        sh "cd ${WORKSPACE}/src/pipeline/ && golint"
         sh "go vet ."
       } catch (err){
         sh "echo static analyis failed.  See report"
