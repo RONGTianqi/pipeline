@@ -10,7 +10,7 @@ node() {
         env.PATH="${GOROOT}/bin:$PATH"
         sh 'go version'
         sh 'rm -rf * '
-        sh 'mkdir bin'
+
   stage('Checkout') {
      checkout([
                     $class: 'GitSCM',
@@ -29,8 +29,8 @@ node() {
     sh 'cd ${PROJ_DIR} ; go build '
   }
   stage ('Static Analysis'){
-        sh 'cp ${PROJ_DIR}/golint ${WORKSPACE}/bin'
-        sh 'rm ${PROJ_DIR}/golint'
+
+
         try{
           sh 'cd ${PROJ_DIR} ; golint'
         } catch (err){
