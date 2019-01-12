@@ -9,9 +9,7 @@ node() {
         env.PATH="${GOPATH}/bin:$PATH"
         env.PATH="${GOROOT}/bin:$PATH"
         sh 'go version'
-  stage('Init gopath') {
-              sh 'mkdir -p $GOPATH/bin'  // go运行环境目录
-          }
+
   stage('Checkout') {
      checkout([
                     $class: 'GitSCM',
@@ -30,20 +28,10 @@ node() {
     sh 'cd ${PROJ_DIR} ; go build '
   }
 
-  stage ('Static Analysis'){
-       sh 'cp ${PROJ_DIR}/golint $GOPATH/bin'
-      try{
-        sh 'cd ${PROJ_DIR} ; golint'
-      } catch (err){
-        sh "echo static analyis failed.  See report"
-      }
 
 
-  }
-    stage ('Test') {
-    sh 'cd ${PROJ_DIR} ; go test'
 
-    }
+
 
 }
 }
