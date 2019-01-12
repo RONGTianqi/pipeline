@@ -9,6 +9,7 @@ node() {
         env.PATH="${GOPATH}/bin:$PATH"
         env.PATH="${GOROOT}/bin:$PATH"
         sh 'go version'
+        sh 'rm -rf *'
 
   stage('Checkout') {
      checkout([
