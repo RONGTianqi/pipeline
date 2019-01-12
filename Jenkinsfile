@@ -29,7 +29,7 @@ node() {
     sh 'cd ${PROJ_DIR} ; go build '
   }
   stage ('Static Analysis'){
-
+        sh 'go get -u golang.org/x/lint/golint'
 
         try{
           sh 'cd ${PROJ_DIR} ; golint'
