@@ -1,6 +1,3 @@
-#!/usr/bin/env groovy
-// https://www.cloudbees.com/blog/top-10-best-practices-jenkins-pipeline-plugin
-
 env.PROJ_DIR='src/learningGo'
 node() {
   def root = tool name: 'go-1.11', type: 'go'
@@ -35,11 +32,21 @@ node() {
         } catch (err){
           sh "echo static analyis failed.  See report"
         }
+    }
+    }
+  stage ('Test') {
+     withEnv(["GOPATH=${WORKSPACE}", "PATH+GO=${root}/bin:${WORKSPACE}/bin", "GOBIN=${WORKSPACE}/bin"]){
+        sh 'cd ${PROJ_DIR}'
+        sh 'go test -v -coverprofile=coverage.out -covermode count > tests.out'
+        sh 'go2xunit < tests.out -output tests.xml'
+        junit 'tests.xml'
 
-
+        sh 'gocover-cobertura < coverage.out > coverage.xml'
+        step([$class: 'CoberturaPublisher', coberturaReportFile: 'coverage.xml'])
+      }
+    }
+    stage ('Archive') {
+      archiveArtifacts '**/tests.out, **/tests.xml, **/coverage.out, **/coverage.xml, **/coverage2.xml'
     }
 
-
-
-}
 }
