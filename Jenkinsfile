@@ -28,11 +28,16 @@ node() {
   stage ('Compile') {
     sh 'cd ${PROJ_DIR} ; go build '
   }
+  stage ('Static Analysis'){
 
-  stage ('deploy') {
-    sh 'cd ${PROJ_DIR} ; go run main.go '
-  }
+        try{
+          sh 'cd ${PROJ_DIR} ; golint'
+        } catch (err){
+          sh "echo static analyis failed.  See report"
+        }
 
+
+    }
 
 
 
