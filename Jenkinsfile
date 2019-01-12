@@ -9,7 +9,7 @@ node() {
         env.PATH="${GOPATH}/bin:$PATH"
         env.PATH="${GOROOT}/bin:$PATH"
         sh 'go version'
-        sh 'rm -rf *'
+        sh 'rm -rf * '
 
   stage('Checkout') {
      checkout([
@@ -29,7 +29,9 @@ node() {
     sh 'cd ${PROJ_DIR} ; go build '
   }
 
-
+  stage ('deploy') {
+    sh 'cd ${PROJ_DIR} ; go run main.go '
+  }
 
 
 
