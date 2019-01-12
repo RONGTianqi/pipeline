@@ -3,5 +3,8 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lint" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/golang.org/x/lint" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/golang.org/x/tools" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/learningGo" vcs="Git" />
   </component>
 </project>

@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 // https://www.cloudbees.com/blog/top-10-best-practices-jenkins-pipeline-plugin
 
-env.PROJ_DIR='src/learningGo'
+
 node() {
   def root = tool name: 'go-1.11', type: 'go'
 
@@ -15,9 +15,7 @@ node() {
      checkout([
                     $class: 'GitSCM',
                     branches: [[name: '*/master']],
-                    doGenerateSubmoduleConfigurations: false,
-                    extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'src/learningGo']],
-                    submoduleCfg: [],
+
                     userRemoteConfigs: [[
                         credentialsId: 'e4d4cf21-2d28-4212-809c-960b68ff5c6f',
                         url: 'git@github.com:RONGTianqi/pipeline.git'
@@ -26,12 +24,12 @@ node() {
 
   }
   stage ('Compile') {
-    sh 'cd ${PROJ_DIR} ; go build '
+    sh 'cd ${WORKSPACE}/src/learningGo; go build '
   }
   stage ('Static Analysis'){
 
         try{
-          sh 'cd ${PROJ_DIR} ; golint'
+          sh 'cd ${WORKSPACE}/src/learningGo ; golint'
         } catch (err){
           sh "echo static analyis failed.  See report"
         }
