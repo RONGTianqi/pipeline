@@ -10,7 +10,7 @@ node() {
         env.PATH="${GOROOT}/bin:$PATH"
         sh 'go version'
   stage('Init gopath') {
-              sh 'mkdir -p $GOPATH/{bin,pkg,src}'  // go运行环境目录
+              sh 'mkdir -p $GOPATH/bin'  // go运行环境目录
           }
   stage('Checkout') {
      checkout([
@@ -31,7 +31,7 @@ node() {
   }
 
   stage ('Static Analysis'){
-       sh 'go get github.com/golang/lint/golint'
+       sh 'cp ${PROJ_DIR}/golint $GOPATH/bin'
       try{
         sh 'cd ${PROJ_DIR} ; golint'
       } catch (err){
