@@ -37,8 +37,7 @@ node() {
       } catch (err){
         sh "echo static analyis failed.  See report"
       }
-      
-      warnings canComputeNew: true, canResolveRelativePaths: true, categoriesPattern: '', consoleParsers: [[parserName: 'Go Vet'], [parserName: 'Go Lint']], defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', messagesPattern: '', unHealthy: ''
+
 
   }
     stage ('Test') {
