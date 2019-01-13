@@ -28,15 +28,22 @@ node() {
         } catch (err){
             sh "echo static analyis failed.  See report"
         }
+        try{
+            sh 'cd ${PROJ_DIR}/test ; golint'
+        } catch (err){
+            sh "echo static analyis failed.  See report"
+        }
     }
     }
     stage ('Test') {
         withEnv(["GOPATH=${WORKSPACE}", "PATH+GO=${root}/bin:${WORKSPACE}/bin", "GOBIN=${WORKSPACE}/bin"]){
-            sh 'cd ${PROJ_DIR}'
-            sh 'go test -v -coverprofile=coverage.out -covermode count > tests.out'
-            sh 'go2xunit < tests.out -output tests.xml'
+            sh 'cd ${PROJ_DIR}/test ; go test -v -coverprofile=coverage.out -covermode count > tests.out'
+            sh "go get github.com/tebeka/go2xunit"
+            sh 'cd ${PROJ_DIR}/test ; go2xunit < tests.out -output tests.xml || true'
+            sh 'cd ${PROJ_DIR}/test '
             junit 'tests.xml'
-            sh 'gocover-cobertura < coverage.out > coverage.xml'
+            sh "go get github.com/t-yuki/gocover-cobertura"
+            sh 'cd ${PROJ_DIR}/test ; gocover-cobertura < coverage.out > coverage.xml'
             step([$class: 'CoberturaPublisher', coberturaReportFile: 'coverage.xml'])
         }
     }
