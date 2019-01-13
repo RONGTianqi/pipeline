@@ -44,7 +44,7 @@ node() {
             junit 'tests.xml'
             sh "go get github.com/t-yuki/gocover-cobertura"
             sh 'cd ${PROJ_DIR}/test ; gocover-cobertura < coverage.out > coverage.xml'
-            step([$class: 'CoberturaPublisher', coberturaReportFile: 'coverage.xml'])
+
         }
     }
     stage ('Archive') {
